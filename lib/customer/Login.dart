@@ -291,7 +291,7 @@ class _LoginState extends State<Login> {
 
       sharedPreferences!.setString("login_type", "customer");
       sharedPreferences!.setString("id", loginResponse.data?.id??"");
-      sharedPreferences!.setString("name", loginResponse.data?.name??"");
+      sharedPreferences!.setString("username", loginResponse.data?.name??"");
       sharedPreferences!.setString("ar_id", "-1");
       sharedPreferences!.setString("mobile", mobile.text);
       sharedPreferences!.setString("status", "logged in");

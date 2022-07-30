@@ -4,6 +4,7 @@ import 'package:delight_card/api/APIService.dart';
 import 'package:delight_card/api/Environment.dart';
 import 'package:delight_card/colors/MyColors.dart';
 import 'package:delight_card/model/CustomerListResponse.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomerList extends StatefulWidget {
   const CustomerList({Key? key}) : super(key: key);
@@ -15,6 +16,9 @@ class CustomerList extends StatefulWidget {
 class _CustomerListState extends State<CustomerList> {
   bool load = false;
   List<Customers> customers = [];
+  List<Customers> active = [];
+  List<Customers> inactive = [];
+  List<Customers> na = [];
   @override
   void initState() {
     getCustomers();
@@ -22,28 +26,82 @@ class _CustomerListState extends State<CustomerList> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Customers"),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primarySwatch: MyColors.generateMaterialColor(MyColors.colorPrimary),
+          dividerColor: Colors.transparent,
+          textTheme: GoogleFonts.latoTextTheme()
       ),
-      body: load ? Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.separated(
-          itemCount: customers.length,
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          separatorBuilder: (BuildContext context, index) {
-            return SizedBox(
-              height: 10,
-            );
-          },
-          itemBuilder: (BuildContext context, index) {
-            return getCustomerCard(customers[index]);
-          },
-        ),
+      home: load ? DefaultTabController(
+          length: 3,
+          child: SafeArea(
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text("Customers"),
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back
+                    ),
+                  ),
+                ),
+                body: Column(
+                  children: [
+                    TabBar(
+                      padding: EdgeInsets.all(10),
+                      labelColor: MyColors.colorPrimary,
+                      indicatorColor: MyColors.colorPrimary,
+                      unselectedLabelColor: MyColors.black,
+                      labelStyle: TextStyle(
+                        fontSize: 12
+                      ),
+                      tabs: [
+                        Tab(
+                          text:"ACTIVE",
+                        ),
+                        Tab(
+                          text: "INACTIVE",
+                        ),
+                        Tab(
+                          text: "NOT APPLIED",
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          getCustomerList("ACTIVE"),
+                          getCustomerList("INACTIVE"),
+                          getCustomerList("NOT APPLIED")
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+            ),
+          )
       ) : const Center(
-        child: CircularProgressIndicator(),
-      ),
+          child: CircularProgressIndicator(),
+        ),
+    );
+  }
+
+  getCustomerList(String type) {
+    return ListView.separated(
+      itemCount: type=="ACTIVE" ? active.length : type=="INACTIVE" ? inactive.length : na.length,
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      separatorBuilder: (BuildContext context, index) {
+        return SizedBox(
+          height: 10,
+        );
+      },
+      itemBuilder: (BuildContext context, index) {
+        return getCustomerCard(type=="ACTIVE" ? active[index] : type=="INACTIVE" ? inactive[index] : na[index]);
+      },
     );
   }
 
@@ -84,7 +142,7 @@ class _CustomerListState extends State<CustomerList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
-            flex: 2,
+            flex: 3,
             fit: FlexFit.tight,
             child: Text(
               title+": ",
@@ -126,6 +184,17 @@ class _CustomerListState extends State<CustomerList> {
     print(customerListResponse.toJson());
 
     customers = customerListResponse.customers ?? [];
+    customers.forEach((element) {
+      if(element.status=="ACTIVE") {
+        active.add(element);
+      }
+      else if(element.status=="INACTIVE") {
+        inactive.add(element);
+      }
+      else {
+        na.add(element);
+      }
+    });
     load = true;
 
     setState(() {

@@ -172,6 +172,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               title+": ",
               style: TextStyle(
                   fontSize: 18,
+                fontWeight: FontWeight.w600
               ),
             ),
           ),

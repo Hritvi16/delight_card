@@ -88,16 +88,18 @@ class _AreaListState extends State<AreaList> {
           const SizedBox(
             height: 10,
           ),
-          Text(area.name??"", textAlign: TextAlign.center,)
+          Expanded(child: Text(area.name??"", textAlign: TextAlign.center,))
         ],
       ),
     );
   }
 
   Future<void> getAreas() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String,String> queryParameters = {
-      APIConstant.act : APIConstant.getByID,
-      "c_id" : widget.c_id
+      APIConstant.act : APIConstant.getByPID,
+      "c_id" : widget.c_id,
+      "pt_id" : sharedPreferences.getString("pt_id")??""
     };
     AreaListResponse areaListResponse = await APIService().getAreas(queryParameters);
     print(areaListResponse.toJson());

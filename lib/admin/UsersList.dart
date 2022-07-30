@@ -141,6 +141,7 @@ class _UsersListState extends State<UsersList> {
               children: [
                 Text(
                   info,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500

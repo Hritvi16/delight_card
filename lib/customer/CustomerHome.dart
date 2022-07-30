@@ -1,4 +1,5 @@
 import 'package:delight_card/customer/CityList.dart';
+import 'package:delight_card/customer/TC.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:delight_card/api/APIConstant.dart';
@@ -7,6 +8,7 @@ import 'package:delight_card/api/Environment.dart';
 import 'package:delight_card/colors/MyColors.dart';
 import 'package:delight_card/customer/AreaList.dart';
 import 'package:delight_card/size/MySize.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../model/PlacesTypeListResponse.dart';
 
 class CustomerHome extends StatefulWidget {
@@ -81,8 +83,19 @@ class _CustomerHomeState extends State<CustomerHome> {
   Widget getPlacesTypeCard(PlacesType placesType) {
     return GestureDetector(
       onTap: () async {
-        if((placesType?.name??"")!="Terms & Condition" && (placesType?.name??"")!="Customer Care" && (placesType?.name??"")!="staff") {
-          sharedPreferences.setString("pt_id", placesType.id??"");
+        sharedPreferences.setString("pt_id", placesType.id??"");
+        if((placesType?.name??"")=="Terms & Condition") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TC()));
+        }
+        else if((placesType?.name??"")=="Customer Care") {
+          launch("tel://+918733007155");
+        }
+        else if((placesType?.name??"")!="staff") {
+        }
+        else {
           Navigator.push(
               context,
               MaterialPageRoute(

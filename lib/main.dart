@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:delight_card/colors/MyColors.dart';
 import 'package:delight_card/customer/AreaList.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: MyColors.generateMaterialColor(MyColors.colorPrimary),
+        textTheme: GoogleFonts.latoTextTheme()
       ),
       home: MyHomePage(),
     );

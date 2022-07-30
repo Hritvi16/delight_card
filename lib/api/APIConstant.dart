@@ -48,6 +48,7 @@ class APIConstant {
   static String type = "type";
 
   static String getByID = "FETCHBYID";
+  static String getByPID = "FETCHBYPID";
   static String getByPAID = "FETCHBYPAID";
   static String getByAID = "FETCHBYAID";
   static String getByBID = "FETCHBYBID";
