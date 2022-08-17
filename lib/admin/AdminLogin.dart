@@ -198,7 +198,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: "Owner",
+                                    text: "Partner",
                                     style: TextStyle(
                                         color: MyColors.colorPrimary
                                     ),

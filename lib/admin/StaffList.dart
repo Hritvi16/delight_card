@@ -68,7 +68,7 @@ class _StaffListState extends State<StaffList> {
             onTap: (CompletionHandler handler) async {
               await handler(true);
               staffs.remove(staff);
-              deleteStaff(staff.id??"");
+              deleteStaff(staff.id??"", staff.role??"");
             },
             icon: Icon(
               Icons.delete,
@@ -215,11 +215,13 @@ class _StaffListState extends State<StaffList> {
     });
   }
 
-  Future<void> deleteStaff(String id) async {
+  Future<void> deleteStaff(String id, String role) async {
     Map<String,String> queryParameters = {
       APIConstant.act : APIConstant.delete,
-      "id" : id
+      "id" : id,
+      "role" : role
     };
+    print(queryParameters);
     Response response = await APIService().deleteStaff(queryParameters);
     print(response.toJson());
 

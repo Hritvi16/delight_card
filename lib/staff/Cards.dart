@@ -101,7 +101,6 @@ class _CardsState extends State<Cards> {
 
   Widget getCardsDesign(Customers customer) {
     return SizedBox(
-        height: 130,
         child: Card(
           shadowColor: Colors.grey,
           elevation: 2,
@@ -112,8 +111,21 @@ class _CardsState extends State<Cards> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 getDetails("Name", customer.name??""),
+                SizedBox(
+                  height: 5,
+                ),
+                getDetails("Family Members", customer.family??"0"),
+                SizedBox(
+                  height: 5,
+                ),
                 getDetails("Issued Date", customer.issueDate??""),
+                SizedBox(
+                  height: 5,
+                ),
                 getDetails("Expiry Date", customer.expiryDate??""),
+                SizedBox(
+                  height: 5,
+                ),
                 getDetails("Secret Code", customer.secret??""),
               ],
             ),
@@ -123,15 +135,12 @@ class _CardsState extends State<Cards> {
   }
 
   getDetails(String title, String info) {
-    return Flexible(
-      flex: 1,
-      fit: FlexFit.tight,
-      child: Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
-            flex: 3,
+            flex: 4,
             fit: FlexFit.tight,
             child: Text(
               title+": ",
@@ -161,7 +170,6 @@ class _CardsState extends State<Cards> {
             ),
           )
         ],
-      ),
     );
   }
 

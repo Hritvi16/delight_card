@@ -93,8 +93,8 @@ class _CustomerHomeState extends State<CustomerHome> {
         else if((placesType?.name??"")=="Customer Care") {
           launch("tel://+918733007155");
         }
-        else if((placesType?.name??"")!="staff") {
-        }
+        // else if((placesType?.name??"")!="staff") {
+        // }
         else {
           Navigator.push(
               context,

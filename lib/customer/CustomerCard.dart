@@ -62,8 +62,8 @@ class _CustomerCardState extends State<CustomerCard> {
   getTicketCard() {
     print(card?.toJson());
     return Container(
-      height: 200,
       decoration: BoxDecoration(
+          color: MyColors.white,
           border: Border.all(color: MyColors.grey1),
           borderRadius: BorderRadius.circular(10)
       ),
@@ -79,7 +79,7 @@ class _CustomerCardState extends State<CustomerCard> {
                   fit: FlexFit.tight,
                   child: Container(
                       color: MyColors.white,
-                      height: 200,
+                      // height: 200,
                       child: Image.asset(
                         "assets/logo/company_logo.JPG",
                         fit: BoxFit.fitWidth,
@@ -97,9 +97,26 @@ class _CustomerCardState extends State<CustomerCard> {
                     child: Column(
                       children: [
                         getDetails("Card No.", card?.cardNo??""),
+                        SizedBox(
+                          height: 10,
+                        ),
                         getDetails("Name", card?.name??""),
+                        SizedBox(
+                          height: 10,
+                        ),
                         getDetails("Issue Date", card?.issueDate??""),
+                        SizedBox(
+                          height: 10,
+                        ),
                         getDetails("Expiry Date", card?.expiryDate??""),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        getDetails("Members", card?.family??"0"),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        // getDetails("Address", card?.address??""),
                       ],
                     ),
                   ),
@@ -121,10 +138,7 @@ class _CustomerCardState extends State<CustomerCard> {
   }
 
   getDetails(String title, String info) {
-    return Flexible(
-      flex: 1,
-      fit: FlexFit.tight,
-      child: Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -160,7 +174,6 @@ class _CustomerCardState extends State<CustomerCard> {
             ),
           )
         ],
-      ),
     );
   }
 

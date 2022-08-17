@@ -131,7 +131,6 @@ class _SettingsState extends State<Settings> {
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-
     sharedPreferences!.setString("login_type", "");
     sharedPreferences!.setString("id", "");
     sharedPreferences!.setString("name", "");

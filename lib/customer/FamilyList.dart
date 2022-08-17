@@ -42,13 +42,13 @@ class _FamilyListState extends State<FamilyList> {
         title: const Text("Family Members"),
       ),
       bottomNavigationBar: IgnorePointer(
-        ignoring: ignore,
+        ignoring: ignore || infoController.isEmpty,
         child: Container(
           height: 45,
           margin: EdgeInsets.symmetric(horizontal: MySize.size15(context), vertical: MySize.sizeh2(context)),
           child: ElevatedButton(
               onPressed: () {
-                if (formkey.currentState!.validate()) {
+                if (formkey.currentState!.validate() && infoController.isNotEmpty) {
                   print("Validated");
 
                   ignore = true;
@@ -60,7 +60,12 @@ class _FamilyListState extends State<FamilyList> {
                   print("Not Validated");
                 }
               },
-              child: Text("Add")
+              child: Text("Add"),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  infoController.isNotEmpty ? MyColors.colorPrimary : MyColors.grey10
+              )
+            ),
           ),
         ),
       ),

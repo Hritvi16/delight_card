@@ -198,7 +198,7 @@ class _StaffLoginState extends State<StaffLogin> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: "Owner",
+                                    text: "Partner",
                                     style: TextStyle(
                                         color: MyColors.colorPrimary
                                     ),

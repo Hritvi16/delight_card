@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +10,17 @@ import 'package:delight_card/customer/AreaList.dart';
 import 'package:delight_card/customer/Login.dart';
 import 'package:delight_card/Home.dart';
 
-void main() {
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if(Platform.isAndroid)
+    await Firebase.initializeApp();
+  print("handling a background message${message.messageId}");
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // if(Platform.isAndroid) {
+  //   await Firebase.initializeApp();
+  // }
   runApp(const MyApp());
 }
 

@@ -96,24 +96,45 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                       ]),
                   child: Column(
                     children: [
-                      if(place.placeType=="Hotel")
-                        Image.asset(
-                          "assets/icon/"+((place.isVeg??"1")=="1" ? "veg.png" : "nonveg.png"),
-                          height: 40,
+                      if(place.placeType=="Restaurant")
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if((place.isVeg??"")=="1" || (place.isVeg??"")=="2")
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Image.asset(
+                                  "assets/icon/veg.png",
+                                  height: 40,
+                                ),
+                              ),
+                            if((place.isVeg??"")=="0" || (place.isVeg??"")=="2")
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Image.asset(
+                                  "assets/icon/nonveg.png",
+                                  height: 40,
+                                ),
+                              ),
+                          ],
                         ),
-                      if(place.placeType=="Hotel")
+                      if(place.placeType=="Restaurant")
                         SizedBox(
                           height: 30,
                         ),
-                      getDetails("Timings", (place.startTime??"") + " - " + (place.endTime??"")),
+                      getDetails("Morning Timing", (place.startTime??"")),
                       SizedBox(
                         height: 30,
                       ),
-                      // getDetails("Description", place.description??""),
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
-                      getDetails("Address", (place.address??""))
+                      getDetails("Evening Timing", (place.endTime??"")),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      getDetails("Address", (place.address??"")),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      getDetails("Speciality", place.speciality??""),
                     ],
                   ),
                 )
@@ -166,10 +187,10 @@ class _PlaceDetailsState extends State<PlaceDetails> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
-            flex: 2,
+            flex: 4,
             fit: FlexFit.tight,
             child: Text(
-              title+": ",
+              title+" : ",
               style: TextStyle(
                   fontSize: 18,
                 fontWeight: FontWeight.w600

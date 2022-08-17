@@ -78,6 +78,7 @@ class Places {
       String? longi, 
       String? address, 
       String? description, 
+      String? speciality,
       String? tc,
       String? arId,
       String? isDelete, 
@@ -95,6 +96,7 @@ class Places {
     _longi = longi;
     _address = address;
     _description = description;
+    _speciality = speciality;
     _tc = tc;
     _arId = arId;
     _isDelete = isDelete;
@@ -115,6 +117,7 @@ class Places {
     _longi = json['longi'];
     _address = json['address'];
     _description = json['description'];
+    _speciality = json['speciality'];
     _tc = json['tc'];
     _arId = json['ar_id'];
     _isDelete = json['is_delete'];
@@ -133,6 +136,7 @@ class Places {
   String? _longi;
   String? _address;
   String? _description;
+  String? _speciality;
   String? _tc;
   String? _arId;
   String? _isDelete;
@@ -151,6 +155,7 @@ class Places {
   String? get longi => _longi;
   String? get address => _address;
   String? get description => _description;
+  String? get speciality => _speciality;
   String? get tc => _tc;
   String? get arId => _arId;
   String? get isDelete => _isDelete;
@@ -171,6 +176,7 @@ class Places {
     map['longi'] = _longi;
     map['address'] = _address;
     map['description'] = _description;
+    map['speciality'] = _speciality;
     map['tc'] = _tc;
     map['ar_id'] = _arId;
     map['is_delete'] = _isDelete;

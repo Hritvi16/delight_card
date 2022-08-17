@@ -63,7 +63,7 @@ class _PlaceLoginState extends State<PlaceLogin> {
                     height: MySize.sizeh30(context),
                   ),
                   Text(
-                    "Owner Login",
+                    "Partner Login",
                     style: TextStyle(
                         fontSize: 24
                     ),

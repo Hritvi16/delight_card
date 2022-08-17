@@ -104,7 +104,8 @@ class Customers {
       String? staff, 
       String? agent,
       String? secret,
-      String? status,}){
+      String? status,
+      String? family,}){
     _id = id;
     _name = name;
     _cardNo = cardNo;
@@ -114,6 +115,7 @@ class Customers {
     _agent = agent;
     _secret = secret;
     _status = status;
+    _family = family;
 }
 
   Customers.fromJson(dynamic json) {
@@ -126,6 +128,7 @@ class Customers {
     _agent = json['agent'];
     _secret = json['secret'];
     _status = json['status'];
+    _family = json['family'];
   }
   String? _id;
   String? _name;
@@ -136,6 +139,7 @@ class Customers {
   String? _agent;
   String? _secret;
   String? _status;
+  String? _family;
 
   String? get id => _id;
   String? get name => _name;
@@ -146,6 +150,7 @@ class Customers {
   String? get agent => _agent;
   String? get secret => _secret;
   String? get status => _status;
+  String? get family => _family;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -158,6 +163,7 @@ class Customers {
     map['agent'] = _agent;
     map['secret'] = _secret;
     map['status'] = _status;
+    map['family'] = _family;
     return map;
   }
 

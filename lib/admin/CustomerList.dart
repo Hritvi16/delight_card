@@ -19,6 +19,7 @@ class _CustomerListState extends State<CustomerList> {
   List<Customers> active = [];
   List<Customers> inactive = [];
   List<Customers> na = [];
+  TextEditingController name = new TextEditingController();
   @override
   void initState() {
     getCustomers();
@@ -38,7 +39,30 @@ class _CustomerListState extends State<CustomerList> {
           child: SafeArea(
             child: Scaffold(
                 appBar: AppBar(
-                  title: Text("Customers"),
+                  // title: Text("Customers"),
+
+                  title: TextFormField(
+                    onFieldSubmitted: (value) {
+                      customers = [];
+                      active = [];
+                      inactive = [];
+                      na = [];
+                      setState(() {
+
+                      });
+                      if(value.isNotEmpty)
+                        getSearchCustomers();
+                      else
+                        getCustomers();
+                    },
+                    controller: name,
+                    style: TextStyle(color: MyColors.black),
+                    decoration: InputDecoration(
+                      hintText: "Search Customer",
+                    ),
+                    cursorColor: MyColors.black,
+                    keyboardType: TextInputType.name,
+                  ),
                   leading: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -106,13 +130,13 @@ class _CustomerListState extends State<CustomerList> {
   }
 
   Widget getCustomerCard(Customers customer) {
+    print(customer.address?.length);
     return GestureDetector(
       onTap: () {
         // Navigator.push(context, MaterialPageRoute(builder: (context) =>
         //     UserDetails(id: User.id??"")));
       },
       child: SizedBox(
-        height: 100,
         child: Card(
           shadowColor: Colors.grey,
           elevation: 2,
@@ -123,8 +147,22 @@ class _CustomerListState extends State<CustomerList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   getDetails("Name", customer.name??""),
+                  SizedBox(
+                    height: 5,
+                  ),
                   getDetails("Mobile No.", customer.phone??""),
+                  SizedBox(
+                    height: 5,
+                  ),
                   getDetails("City", customer.city??""),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  getDetails("Family Members", customer.family??"0"),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  getDetails("Address", customer.address??""),
                 ],
               ),
           ),
@@ -134,10 +172,7 @@ class _CustomerListState extends State<CustomerList> {
   }
 
   getDetails(String title, String info) {
-    return Flexible(
-      flex: 1,
-      fit: FlexFit.tight,
-      child: Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -172,13 +207,39 @@ class _CustomerListState extends State<CustomerList> {
             ),
           )
         ],
-      ),
     );
   }
 
   Future<void> getCustomers() async {
     Map<String,String> queryParameters = {
       APIConstant.act : APIConstant.getAll,
+    };
+    CustomerListResponse customerListResponse = await APIService().getCustomers(queryParameters);
+    print(customerListResponse.toJson());
+
+    customers = customerListResponse.customers ?? [];
+    customers.forEach((element) {
+      if(element.status=="ACTIVE") {
+        active.add(element);
+      }
+      else if(element.status=="INACTIVE") {
+        inactive.add(element);
+      }
+      else {
+        na.add(element);
+      }
+    });
+    load = true;
+
+    setState(() {
+
+    });
+  }
+
+  Future<void> getSearchCustomers() async {
+    Map<String,String> queryParameters = {
+      APIConstant.act : APIConstant.getBySearch,
+      "search" : name.text
     };
     CustomerListResponse customerListResponse = await APIService().getCustomers(queryParameters);
     print(customerListResponse.toJson());

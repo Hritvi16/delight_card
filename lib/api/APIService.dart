@@ -353,6 +353,7 @@ class APIService {
     var url = Uri.http(Environment.url2, Environment.api2 + APIConstant.manageCards, queryParameters);
     print(url);
     var result = await http.get(url);
+    print(result.body);
     CardListResponse cardListResponse = CardListResponse.fromJson(json.decode(result.body));
     return cardListResponse;
   }

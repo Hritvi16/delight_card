@@ -27,7 +27,7 @@ class AddPlace extends StatefulWidget {
   State<AddPlace> createState() => _AddPlaceState();
 }
 
-enum Food {veg, nonveg}
+enum Food {veg, nonveg, both}
 
 class _AddPlaceState extends State<AddPlace> {
 
@@ -53,6 +53,7 @@ class _AddPlaceState extends State<AddPlace> {
   final endtime = TextEditingController();
   final address = TextEditingController();
   final description = TextEditingController();
+  final speciality = TextEditingController();
   final latitude = TextEditingController();
   final longitude = TextEditingController();
   final mobile = TextEditingController();
@@ -135,51 +136,62 @@ class _AddPlaceState extends State<AddPlace> {
                 if(placeType=="Restaurant")
                   Row(
                     children: [
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: Food.veg,
-                              groupValue: food,
-                              onChanged: (Food? value) {
-                                setState(() {
-                                  food = value!;
-                                });
-                              },
-                            ),
-                            Text(
-                              "Veg",
-                              style: TextStyle(
+                      Row(
+                        children: [
+                          Radio(
+                            value: Food.veg,
+                            groupValue: food,
+                            onChanged: (Food? value) {
+                              setState(() {
+                                food = value!;
+                              });
+                            },
+                          ),
+                          Text(
+                            "Veg",
+                            style: TextStyle(
                                 fontWeight: FontWeight.w500
-                              ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: Food.nonveg,
-                              groupValue: food,
-                              onChanged: (Food? value) {
-                                setState(() {
-                                  food = value!;
-                                });
-                              },
-                            ),
-                            Text(
-                              "Non-Veg",
-                              style: TextStyle(
+                      Row(
+                        children: [
+                          Radio(
+                            value: Food.nonveg,
+                            groupValue: food,
+                            onChanged: (Food? value) {
+                              setState(() {
+                                food = value!;
+                              });
+                            },
+                          ),
+                          Text(
+                            "Non-Veg",
+                            style: TextStyle(
                                 fontWeight: FontWeight.w500
-                              ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio(
+                            value: Food.both,
+                            groupValue: food,
+                            onChanged: (Food? value) {
+                              setState(() {
+                                food = value!;
+                              });
+                            },
+                          ),
+                          Text(
+                            "Both",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -318,6 +330,23 @@ class _AddPlaceState extends State<AddPlace> {
                   decoration: const InputDecoration(
                     icon: const Icon(Icons.note),
                     labelText: 'Description',
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: speciality,
+                  validator: (value) {
+                    // if (value == null || value.isEmpty) {
+                    //   return 'Please Enter Speciality';
+                    // }
+                    return null;
+                  },
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    icon: const Icon(Icons.star),
+                    labelText: 'Speciality',
                   ),
                 ),
                 SizedBox(
@@ -478,8 +507,9 @@ class _AddPlaceState extends State<AddPlace> {
       longitude.text = widget.place?.longi??"";
       address.text = widget.place?.address??"";
       description.text = widget.place?.description??"";
+      speciality.text = widget.place?.speciality??"";
       tc.text = widget.place?.tc??"";
-      food = (widget.place?.isVeg??"1")=="1" ? Food.veg : Food.nonveg;
+      food = (widget.place?.isVeg??"0")=="1" ? Food.veg : (widget.place?.isVeg??"0")=="0" ? Food.nonveg : Food.both;
     }
     setState(() {
 
@@ -569,10 +599,11 @@ class _AddPlaceState extends State<AddPlace> {
     data['longi'] = longitude.text;
     data['address'] = address.text;
     data['description'] = description.text;
+    data['speciality'] = speciality.text;
     data['tc'] = tc.text;
     data['ar_id'] = areas[areasString.indexOf(area!)].id??"";
     data['pt_id'] = placeTypes[placeTypeString.indexOf(placeType!)].id??"";
-    data['is_veg'] = food==Food.veg ? "1" : "0";
+    data['is_veg'] = food==Food.veg ? "1" : food==Food.nonveg ? "0" : "2";
     if(imageFile!=null)
       data['places'] = imageFile?.path??"";
     if(widget.act==APIConstant.update)

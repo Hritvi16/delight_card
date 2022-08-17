@@ -197,7 +197,7 @@ class _LoginState extends State<Login> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: "Owner",
+                                    text: "Partner",
                                     style: TextStyle(
                                         color: MyColors.colorPrimary
                                     ),

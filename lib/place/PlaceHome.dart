@@ -23,7 +23,7 @@ class PlaceHome extends StatefulWidget {
   State<PlaceHome> createState() => _PlaceHomeState();
 }
 
-enum Food {veg, nonveg}
+enum Food {veg, nonveg, both}
 
 class _PlaceHomeState extends State<PlaceHome> {
   late SharedPreferences sharedPreferences;
@@ -41,6 +41,7 @@ class _PlaceHomeState extends State<PlaceHome> {
   final endtime = TextEditingController();
   final address = TextEditingController();
   final description = TextEditingController();
+  final speciality = TextEditingController();
   final latitude = TextEditingController();
   final longitude = TextEditingController();
   final mobile = TextEditingController();
@@ -70,6 +71,30 @@ class _PlaceHomeState extends State<PlaceHome> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0.0, 1.0), //(x,y)
+                            blurRadius: 2.0,
+                          ),
+                        ]),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                          Environment.imageUrl + (place.image ?? ""),
+                          fit: BoxFit.fill,
+                          height: 200,
+                          width: MediaQuery.of(context).size.width
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                      height: 20,
+                  ),
                   TextFormField(
                     controller: area,
                     enabled: false,
@@ -90,52 +115,64 @@ class _PlaceHomeState extends State<PlaceHome> {
                   ),
                   if(place.placeType=="Restaurant")
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Row(
-                            children: [
-                              Radio(
-                                value: Food.veg,
-                                groupValue: food,
-                                onChanged: (Food? value) {
-                                  setState(() {
-                                    food = value!;
-                                  });
-                                },
+                        Row(
+                          children: [
+                            Radio(
+                              value: Food.veg,
+                              groupValue: food,
+                              onChanged: (Food? value) {
+                                setState(() {
+                                  food = value!;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Veg",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500
                               ),
-                              Text(
-                                "Veg",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Row(
-                            children: [
-                              Radio(
-                                value: Food.nonveg,
-                                groupValue: food,
-                                onChanged: (Food? value) {
-                                  setState(() {
-                                    food = value!;
-                                  });
-                                },
+                        Row(
+                          children: [
+                            Radio(
+                              value: Food.nonveg,
+                              groupValue: food,
+                              onChanged: (Food? value) {
+                                setState(() {
+                                  food = value!;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Non-Veg",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500
                               ),
-                              Text(
-                                "Non-Veg",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                              value: Food.both,
+                              groupValue: food,
+                              onChanged: (Food? value) {
+                                setState(() {
+                                  food = value!;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Both",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
@@ -147,6 +184,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                       return null;
                     },
                     controller: placename,
+                    enabled: false,
+                    readOnly: true,
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.add_business),
                       labelText: 'Place Name',
@@ -163,6 +202,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                       return null;
                     },
                     controller: starttime,
+                    enabled: false,
+                    readOnly: true,
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.lock_clock),
                       labelText: 'Start Time',
@@ -179,6 +220,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                       return null;
                     },
                     controller: endtime,
+                    enabled: false,
+                    readOnly: true,
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.lock_clock),
                       labelText: 'End Time',
@@ -197,6 +240,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                       return null;
                     },
                     controller: mobile,
+                    enabled: false,
+                    readOnly: true,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
                     ],
@@ -212,6 +257,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                   ),
                   TextFormField(
                     controller: latitude,
+                    enabled: false,
+                    readOnly: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Latitude';
@@ -229,6 +276,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                   ),
                   TextFormField(
                     controller: longitude,
+                    enabled: false,
+                    readOnly: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Longitude';
@@ -247,6 +296,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                   ),
                   TextFormField(
                     controller: address,
+                    enabled: false,
+                    readOnly: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Address';
@@ -264,6 +315,8 @@ class _PlaceHomeState extends State<PlaceHome> {
                   ),
                   TextFormField(
                     controller: description,
+                    enabled: false,
+                    readOnly: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Description';
@@ -280,7 +333,28 @@ class _PlaceHomeState extends State<PlaceHome> {
                     height: 10,
                   ),
                   TextFormField(
+                    controller: speciality,
+                    enabled: false,
+                    readOnly: true,
+                    validator: (value) {
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Please Enter Speciality';
+                      // }
+                      return null;
+                    },
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      icon: const Icon(Icons.star),
+                      labelText: 'Speciality',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
                     controller: tc,
+                    enabled: false,
+                    readOnly: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Terms & Conditions';
@@ -293,75 +367,75 @@ class _PlaceHomeState extends State<PlaceHome> {
                       labelText: 'Terms & Conditions',
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                          height: 100,
-                          child: imageFile!=null ?
-                          Image.file(
-                            imageFile!,
-                            fit: BoxFit.cover,
-                          )
-                              : Image.network(
-                            Environment.imageUrl+(place?.image??""),
-                            fit: BoxFit.fill,
-                          )
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            _getFromGallery();
-                          },
-                          child: Text("CHANGE IMAGE")
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IgnorePointer(
-                        ignoring: ignore,
-                        child: SizedBox(
-                          height: 35,
-                          width: 90,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if (formkey.currentState!.validate()) {
-                                  print("Validated");
-
-                                  print("hhh");
-
-
-                                  showImageError = false;
-                                  // ignore = true;
-                                  setState(() {
-
-                                  });
-                                  addPlace();
-                                }
-                              },
-                              child: Text("Update")
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 35,
-                        width: 90,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context, "Cancel");
-                            },
-                            child: const Text("Cancel ")),
-                      ),
-                    ],
-                  ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     SizedBox(
+                  //         height: 100,
+                  //         child: imageFile!=null ?
+                  //         Image.file(
+                  //           imageFile!,
+                  //           fit: BoxFit.cover,
+                  //         )
+                  //             : Image.network(
+                  //           Environment.imageUrl+(place?.image??""),
+                  //           fit: BoxFit.fill,
+                  //         )
+                  //     ),
+                  //     ElevatedButton(
+                  //         onPressed: () {
+                  //           _getFromGallery();
+                  //         },
+                  //         child: Text("CHANGE IMAGE")
+                  //     )
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     IgnorePointer(
+                  //       ignoring: ignore,
+                  //       child: SizedBox(
+                  //         height: 35,
+                  //         width: 90,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               if (formkey.currentState!.validate()) {
+                  //                 print("Validated");
+                  //
+                  //                 print("hhh");
+                  //
+                  //
+                  //                 showImageError = false;
+                  //                 // ignore = true;
+                  //                 setState(() {
+                  //
+                  //                 });
+                  //                 addPlace();
+                  //               }
+                  //             },
+                  //             child: Text("Update")
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 35,
+                  //       width: 90,
+                  //       child: ElevatedButton(
+                  //           onPressed: () {
+                  //             Navigator.pop(context, "Cancel");
+                  //           },
+                  //           child: const Text("Cancel ")),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -421,8 +495,9 @@ class _PlaceHomeState extends State<PlaceHome> {
     longitude.text = place?.longi??"";
     address.text = place?.address??"";
     description.text = place?.description??"";
+    speciality.text = place?.speciality??"";
     tc.text = place?.tc??"";
-    food = (place?.isVeg??"1")=="1" ? Food.veg : Food.nonveg;
+    food = (place?.isVeg??"0")=="1" ? Food.veg : (place?.isVeg??"0")=="0" ? Food.nonveg : Food.both;
 
     load = true;
 

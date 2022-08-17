@@ -44,6 +44,7 @@ class Customers {
       String? pincode, 
       String? phone,
       String? status,
+      String? family,
   }){
     _city = city;
     _id = id;
@@ -52,6 +53,7 @@ class Customers {
     _pincode = pincode;
     _phone = phone;
     _status = status;
+    _family = family;
 }
 
   Customers.fromJson(dynamic json) {
@@ -62,6 +64,7 @@ class Customers {
     _pincode = json['pincode'];
     _phone = json['phone'];
     _status = json['status'];
+    _family = json['family'];
   }
   String? _city;
   String? _id;
@@ -70,6 +73,7 @@ class Customers {
   String? _pincode;
   String? _phone;
   String? _status;
+  String? _family;
 
   String? get city => _city;
   String? get id => _id;
@@ -78,6 +82,7 @@ class Customers {
   String? get pincode => _pincode;
   String? get phone => _phone;
   String? get status => _status;
+  String? get family => _family;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -88,6 +93,7 @@ class Customers {
     map['pincode'] = _pincode;
     map['phone'] = _phone;
     map['status'] = _status;
+    map['family'] = _family;
     return map;
   }
 
